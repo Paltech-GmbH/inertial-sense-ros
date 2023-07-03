@@ -1686,6 +1686,11 @@ void InertialSenseROS::preint_IMU_callback(eDataIDs DID, const pimu_t *const msg
         imu_msg.linear_acceleration.y = msg->vel[1] / msg->dt;
         imu_msg.linear_acceleration.z = msg->vel[2] / msg->dt;
 
+        imu_msg.orientation.w = enu_odom_msg.pose.pose.orientation.w;
+        imu_msg.orientation.x = enu_odom_msg.pose.pose.orientation.x;
+        imu_msg.orientation.y = enu_odom_msg.pose.pose.orientation.y;
+        imu_msg.orientation.z = enu_odom_msg.pose.pose.orientation.z;
+
         IMU_.pub.publish(imu_msg);
     }
 }
