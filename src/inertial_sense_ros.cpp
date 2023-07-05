@@ -1691,6 +1691,22 @@ void InertialSenseROS::preint_IMU_callback(eDataIDs DID, const pimu_t *const msg
         imu_msg.orientation.y = enu_odom_msg.pose.pose.orientation.y;
         imu_msg.orientation.z = enu_odom_msg.pose.pose.orientation.z;
 
+        imu_msg.orientation_covariance[0] = enu_odom_msg.pose.covariance[21];
+        imu_msg.orientation_covariance[4] = enu_odom_msg.pose.covariance[28];
+        imu_msg.orientation_covariance[8] = enu_odom_msg.pose.covariance[35];
+
+        imu_msg.angular_velocity_covariance[0] = enu_odom_msg.twist.covariance[21];
+        imu_msg.angular_velocity_covariance[4] = enu_odom_msg.twist.covariance[28];
+        imu_msg.angular_velocity_covariance[8] = enu_odom_msg.twist.covariance[35];
+
+        // imu_msg.linear_acceleration_covariance[0] = 2 * enu_odom_msg.twist.covariance[0] / (msg->dt * msg->dt);
+        // imu_msg.linear_acceleration_covariance[4] = 2 * enu_odom_msg.twist.covariance[7] / (msg->dt * msg->dt);
+        // imu_msg.linear_acceleration_covariance[8] = 2 * enu_odom_msg.twist.covariance[14] / (msg->dt * msg->dt);
+
+        imu_msg.linear_acceleration_covariance[0] = enu_odom_msg.twist.covariance[0];
+        imu_msg.linear_acceleration_covariance[4] = enu_odom_msg.twist.covariance[7];
+        imu_msg.linear_acceleration_covariance[8] = enu_odom_msg.twist.covariance[14];
+
         IMU_.pub.publish(imu_msg);
     }
 }
